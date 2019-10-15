@@ -1,14 +1,14 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('images', {
+    return queryInterface.createTable('pages', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      idEpisode: {
+      episodeId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -17,7 +17,9 @@ module.exports = {
         },
         onUpdate: 'cascade',
         onDelete: 'cascade'
-       
+      },
+      page: {
+        type: Sequelize.STRING
       },
       image: {
         type: Sequelize.STRING
@@ -33,6 +35,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('images');
+    return queryInterface.dropTable('pages');
   }
 };

@@ -1,6 +1,4 @@
 const jwt = require('jsonwebtoken')
-
-
 const models = require('../models')
 const User = models.user
 

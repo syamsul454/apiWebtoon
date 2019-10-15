@@ -19,7 +19,9 @@ app.group("/webtoon/api/v1", (router) => {
 
     // -----------Routing webtoon -----------------
     router.get('/webtoons', WebtoonController.index)    
-    router.get('/webtoon/:id', WebtoonController.show)    
+    router.get('/webtoon/:id', WebtoonController.show) 
+    router.get('/webtoon/:id/episode', WebtoonController.episode)   
+    router.get('/webtoon/:id/episode/:id', WebtoonController.detailepisode)  
     router.post('/webtoon', WebtoonController.store)    
     router.patch('/webtoon/:id', WebtoonController.update)    
     router.delete('/webtoon/:id', WebtoonController.delete)
