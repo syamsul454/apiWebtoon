@@ -102,3 +102,11 @@ exports.addimages = (req, res) => {
         res.send(result)
     })
 }
+
+exports.deleteimages = (req, res) => {
+    page.destroy({
+        where: {id : req.params.id_image}
+  }).then(pages=> {
+    res.send({message : 'sukses'})
+  })
+}
