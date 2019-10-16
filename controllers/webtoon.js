@@ -5,13 +5,43 @@ const episode = connection.episode
 const page = connection.page
 
 exports.index = (req, res) => {
+    var favorite = req.query.is_favorite
+if (req.query.is_favorite) {
+
      komik.findAll({
          include: [{
             model: user,
             as: "CreateBy",
-        }] } 
+        }],
+             where : {isFavorite : favorite}
+         } ,
+       
+        ).then(komiks=>res.send(komiks))
+    } else {
+         komik.findAll({
+         include: [{
+            model: user,
+            as: "CreateBy",
+        }] } ,
+        ).then(komiks=>res.send(komiks))
+    }
+}
+
+
+exports.favorite = (req, res) => {
+    var favorite = req.params.is_favorite
+    console.log(favorite)
+     komik.findAll({
+         include: [{
+            model: user,
+            as: "CreateBy",
+        }],
+            where : {isFavorite : favorite}
+         } 
         ).then(komiks=>res.send(komiks))
 }
+
+
 
 exports.show = (req, res) => {
    komik.findAll(

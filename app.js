@@ -15,10 +15,11 @@ const { authenticated } = require('./middleware')
 
 app.group("/webtoon/api/v1", (router) => {
     //todos API
-    router.post('/login', AuthController.login)
+    router.post('/registrasi', UserController.store)   
+    router.post('/login',AuthController.login)
 
     // -----------Routing webtoon -----------------
-    router.get('/webtoons', WebtoonController.index)    
+    router.get('/webtoons',authenticated, WebtoonController.index) 
     router.get('/webtoon/:id', WebtoonController.show) 
     router.get('/webtoon/:id/episode', WebtoonController.episode)   
     router.get('/webtoon/:id/episode/:ep', WebtoonController.detailepisode)  
@@ -28,8 +29,7 @@ app.group("/webtoon/api/v1", (router) => {
     // -------------------------------------------------------
     // --------------------- Routing User----------------------
     router.get('/users', UserController.index)    
-    router.get('/webtoon/user/:id', UserController.show)    
-    router.post('/webtoon/user', UserController.store)     
+    router.get('/webtoon/user/:id', UserController.show)      
     router.patch('/webtoon/user/:id', UserController.update)    
     router.delete('/webtoon/user/:id', UserController.delete)
 
