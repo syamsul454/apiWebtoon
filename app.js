@@ -36,6 +36,7 @@ app.group("/webtoon/api/v1", (router) => {
     router.get('/user/:id_user/komik/:id_komik/episode',authenticated, EpisodeController.index)
     router.post('/user/:id_user/komik/:id_komik/episode',authenticated, EpisodeController.store)
     router.get('/user/:id_user/komik/:id_komik/episode/:id_episode/images',authenticated, EpisodeController.images)
+    router.post('/user/:id_user/komik/:id_komik/episode/:id_episode/images',authenticated, EpisodeController.addimages)
     router.put('/user/:id_user/komik/:id_komik/episode/:id_episode',authenticated, EpisodeController.update)
     router.delete('/user/:id_user/komik/:id_komik/episode/:id_episode',authenticated, EpisodeController.delete)
     router.put('/user/:id/komik/:id_komik',authenticated, WebtoonController.update)

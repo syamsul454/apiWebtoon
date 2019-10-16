@@ -91,3 +91,14 @@ exports.delete = (req, res) => {
     res.send({message : 'sukses'})
   })
 }
+
+exports.addimages = (req, res) => {
+    console.log(req.body)
+    page.create({
+        episodeId : req.params.id_episode,
+        page : req.body.page,
+        image :req.body.image
+    }). then(result => {
+        res.send(result)
+    })
+}
