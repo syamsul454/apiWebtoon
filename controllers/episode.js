@@ -59,16 +59,19 @@ exports.show = (req, res) => {
 }
 
 exports.store = (req, res) => {
-    const { title, is_done } = req.body    
-
-    connection.query(`INSERT INTO todos (title, is_done) VALUES ('${title}', '${is_done}')`, (err)=> {
-        if (err) throw err
-    })    
-
-    res.send({
-        success: true,
-        data: req.body
-    })
+   episode.create({
+                titleId : req.params.id_komik,
+                episode : req.body.episode,
+                image : req.body.image
+   }). then(result => {
+        res.send(result)
+   })
+}
+exports.images = (req, res) => {
+    console.log(req.params.id_episode)
+   page.findAll({
+    where : {episodeId : req.params.id_episode}
+   }).then(pages=> res.send(pages))
 }
 
 exports.update = (req, res) => {
