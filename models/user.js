@@ -6,7 +6,10 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
   }, {});
   user.associate = function(models) {
-  
+  user.hasMany(models.komik, {
+    as : 'komik',
+    foreignKey :'createdBy'
+   })
   };
   return user;
 };

@@ -4,13 +4,33 @@ const komik = connection.komik
 const jwt = require('jsonwebtoken')
 
 exports.index = (req, res) => {
-     user.findAll().then(users=>res.send(users))
+     user.findAll({
+     		include: [{
+            model: komik,
+            as: "komik",
+        }],
+     	}).then(users=>res.send(users))
 
 }
 
 exports.show = (req, res) => {
     console.log(req.params.id)
-    user.findOne({id: req.params.id}).then(users=> res.send(users))
+    user.findAll({
+    		include: [{
+            model: komik,
+            as: "komik",
+        }],
+    		where : {id : req.params.id} }
+    	).then(users=> res.send(users))
+
+}
+
+exports.komik = (req, res) => {
+    console.log(req.params.id)
+    komik.findAll({
+
+    	where : {createdBy : req.params.id} }
+    	).then(komiks=> res.send(komiks))
 }
 
 exports.store = (req, res) => {

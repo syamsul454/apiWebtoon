@@ -28,10 +28,11 @@ app.group("/webtoon/api/v1", (router) => {
     router.delete('/webtoon/:id', WebtoonController.delete)
     // -------------------------------------------------------
     // --------------------- Routing User----------------------
-    router.get('/users', UserController.index)    
-    router.get('/webtoon/user/:id', UserController.show)      
-    router.patch('/webtoon/user/:id', UserController.update)    
-    router.delete('/webtoon/user/:id', UserController.delete)
+    router.get('/users',authenticated, UserController.index)    
+    router.get('/user/:id',authenticated, UserController.show)  
+    router.get('/user/:id/komik',authenticated, UserController.komik)      
+    router.patch('/user/:id', UserController.update)    
+    router.delete('/user/:id', UserController.delete)
 
     
 })

@@ -6,6 +6,7 @@ const page = connection.page
 
 exports.index = (req, res) => {
     var favorite = req.query.is_favorite
+    var title = req.query.title
 if (req.query.is_favorite) {
 
      komik.findAll({
@@ -17,7 +18,8 @@ if (req.query.is_favorite) {
          } ,
        
         ).then(komiks=>res.send(komiks))
-    } else {
+    }
+     else {
          komik.findAll({
          include: [{
             model: user,
@@ -25,6 +27,16 @@ if (req.query.is_favorite) {
         }] } ,
         ).then(komiks=>res.send(komiks))
     }
+
+    if (req.query.title) {
+        komik.findAll({
+            where : {title : req.query.title }
+        }).then(komiks=>res.send(komiks)) 
+    } else {
+         komik.findAll().then(komiks=>res.send(komiks))
+    }
+
+
 }
 
 
