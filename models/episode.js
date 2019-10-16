@@ -7,8 +7,12 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   episode.associate = function(models) {
     episode.belongsTo(models.komik, {
-    as : 'komik',
+    as : 'Episode',
     foreignKey :'titleId'
+   })
+    episode.hasMany(models.page, {
+    as : 'Page',
+    foreignKey :'episodeId'
    })
   };
   return episode;

@@ -35,8 +35,6 @@ if (req.query.is_favorite) {
     } else {
          komik.findAll().then(komiks=>res.send(komiks))
     }
-
-
 }
 
 
@@ -53,8 +51,6 @@ exports.favorite = (req, res) => {
         ).then(komiks=>res.send(komiks))
 }
 
-
-
 exports.show = (req, res) => {
    komik.findAll(
     {
@@ -64,28 +60,6 @@ exports.show = (req, res) => {
         }],
          where : {id : req.params.id}
     }).then(komiks=>res.send(komiks))
-}
-
-exports.episode = (req, res) => {
-     episode.findAll( {
-        include: [{
-            model: komik,
-            as: "komik",
-        }],
-        where : {titleId : req.params.id}}).then(episodes=>res.send(episodes))
-}
-
-exports.detailepisode = (req, res) => {
-    const  {id, ep} = req.params
- page.findAll({
-         include: [{
-            model: episode,
-            as: "List",
-        }],
-         where : {episodeId :ep},
-       
-    }).then(pages=> res.send(pages)) 
-
 }
 
 exports.store = (req, res) => {
@@ -99,6 +73,37 @@ exports.store = (req, res) => {
         success: true,
         data: req.body
     })
+}
+
+// tampilkan komik berdasarkan id user
+exports.komik = (req, res) => {
+    komik.findAll({
+            include : [{ 
+                model: episode,
+                as : 'Episode'
+            }],
+        where : {createdBy : req.params.id} }
+        ).then(komiks=> {
+            if (komiks != '') {
+                res.send(komiks)
+            } else {
+                res.send({ message : 'Data not found'})
+            }
+        })
+}
+
+// tambah komik berdsarkan id user
+exports.addKomik = (req, res) => {
+    console.log(req.params.id)
+    komik.create({
+        title : req.body.title,
+        genre : req.body.genre,
+        isFavorite : req.body.isFavorite,
+        image : req.body.image,
+        createdBy: req.params.id,
+        }).then(result => {
+            res.send(result)
+        })
 }
 
 exports.update = (req, res) => {

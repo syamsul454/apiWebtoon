@@ -25,14 +25,6 @@ exports.show = (req, res) => {
 
 }
 
-exports.komik = (req, res) => {
-    console.log(req.params.id)
-    komik.findAll({
-
-    	where : {createdBy : req.params.id} }
-    	).then(komiks=> res.send(komiks))
-}
-
 exports.store = (req, res) => {
 	const {email,password,name,createdAt, updateAt} = req.body
 	const token = jwt.sign({email : req.body.email}, 'my-secret-key')

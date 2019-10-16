@@ -10,19 +10,20 @@ app.use(bodyParser.json())
 const AuthController = require('./controllers/auth')
 const WebtoonController = require('./controllers/webtoon')
 const UserController = require('./controllers/users')
+const EpisodeController = require('./controllers/episode')
 
 const { authenticated } = require('./middleware')
 
 app.group("/webtoon/api/v1", (router) => {
     //todos API
-    router.post('/registrasi', UserController.store)   
+    router.post('/registrasi', UserController.store)
     router.post('/login',AuthController.login)
 
     // -----------Routing webtoon -----------------
     router.get('/webtoons',authenticated, WebtoonController.index) 
     router.get('/webtoon/:id', WebtoonController.show) 
-    router.get('/webtoon/:id/episode', WebtoonController.episode)   
-    router.get('/webtoon/:id/episode/:ep', WebtoonController.detailepisode)  
+    router.get('/webtoon/:id/episode', EpisodeController.index)   
+    router.get('/webtoon/:id/episode/:ep', EpisodeController.show)  
     router.post('/webtoon', WebtoonController.store)    
     router.patch('/webtoon/:id', WebtoonController.update)    
     router.delete('/webtoon/:id', WebtoonController.delete)
@@ -30,7 +31,9 @@ app.group("/webtoon/api/v1", (router) => {
     // --------------------- Routing User----------------------
     router.get('/users',authenticated, UserController.index)    
     router.get('/user/:id',authenticated, UserController.show)  
-    router.get('/user/:id/komik',authenticated, UserController.komik)      
+    router.get('/user/:id/komik',authenticated, WebtoonController.komik)
+    router.get('/user/:id_user/komik/:id_komik/episode',authenticated, EpisodeController.index)
+    router.post('/user/:id/komik', WebtoonController.addKomik)
     router.patch('/user/:id', UserController.update)    
     router.delete('/user/:id', UserController.delete)
 
