@@ -75,7 +75,13 @@ exports.images = (req, res) => {
 }
 
 exports.update = (req, res) => {
-    //DO IT YOURSELF - MINI QUIZ
+    episode.update(
+            req.body,
+             { 
+            where: {id : req.params.id_episode}
+   }).then(episodes =>{
+            res.send({status : 'Sukses'})
+   })
 }
 
 exports.delete = (req, res) => {
