@@ -117,5 +117,9 @@ exports.update = (req, res) => {
 }
 
 exports.delete = (req, res) => {
-    //DO IT YOURSELF - MINI QUIZ
+  komik.destroy({
+        where: {id : req.params.id_komik}
+  }).then(komiks=> {
+    res.send({message : 'sukses'})
+  })
 }

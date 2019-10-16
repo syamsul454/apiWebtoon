@@ -34,6 +34,7 @@ app.group("/webtoon/api/v1", (router) => {
     router.get('/user/:id/komik',authenticated, WebtoonController.komik)
     router.get('/user/:id_user/komik/:id_komik/episode',authenticated, EpisodeController.index)
     router.put('/user/:id/komik/:id_komik',authenticated, WebtoonController.update)
+    router.delete('/user/:id/komik/:id_komik',authenticated, WebtoonController.delete)
     router.post('/user/:id/komik', WebtoonController.addKomik)
     router.patch('/user/:id', UserController.update)    
     router.delete('/user/:id', UserController.delete)
