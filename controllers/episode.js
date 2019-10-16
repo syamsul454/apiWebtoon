@@ -85,5 +85,9 @@ exports.update = (req, res) => {
 }
 
 exports.delete = (req, res) => {
-    //DO IT YOURSELF - MINI QUIZ
+    episode.destroy({
+        where: {id : req.params.id_episode}
+  }).then(episodes=> {
+    res.send({message : 'sukses'})
+  })
 }
