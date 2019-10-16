@@ -92,7 +92,6 @@ exports.komik = (req, res) => {
         })
 }
 
-// tambah komik berdsarkan id user
 exports.addKomik = (req, res) => {
     console.log(req.params.id)
     komik.create({
