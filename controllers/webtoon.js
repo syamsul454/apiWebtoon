@@ -107,7 +107,13 @@ exports.addKomik = (req, res) => {
 }
 
 exports.update = (req, res) => {
-    //DO IT YOURSELF - MINI QUIZ
+   komik.update(
+            req.body,
+             { 
+            where: {id : req.params.id_komik}
+   }).then(komiks =>{
+            res.send({status : 'Sukses'})
+   })
 }
 
 exports.delete = (req, res) => {
