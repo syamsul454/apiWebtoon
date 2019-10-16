@@ -1,6 +1,7 @@
 const connection = require('./../models')
 const user = connection.user
 const komik = connection.komik
+const jwt = require('jsonwebtoken')
 
 exports.index = (req, res) => {
      user.findAll().then(users=>res.send(users))
@@ -13,9 +14,16 @@ exports.show = (req, res) => {
 }
 
 exports.store = (req, res) => {
-    // const { title, is_done } = req.body    
-
-    // res.send('registasi user')
+	const {email,password,name,createdAt, updateAt} = req.body
+	const token = jwt.sign({email : req.body.email}, 'my-secret-key')
+    user.create({
+    		email : req.body.email,
+    		password : req.body.password,
+    		name : req.body.name})
+    .then(function(result){
+    	var name = req.body.name
+    	res.send({name,token})
+    })
 }
 
 exports.update = (req, res) => {

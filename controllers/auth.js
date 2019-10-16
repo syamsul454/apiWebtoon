@@ -6,8 +6,8 @@ exports.login = (req, res)=>{
     
 
     console.log(req.body)
-    const email = "syamsul@hadi.com"
-    const password = "xxx"
+    const email = req.body.email
+    const password = req.body.password
 
     User.findOne({where: {email, password}}).then(user=>{
         if(user){

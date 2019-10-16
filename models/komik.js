@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   komik.associate = function(models) {
    komik.belongsTo(models.user, {
-    as : 'user',
-    foreignKey : 'createdBy'
+    as : 'CreateBy',
+    foreignKey :'createdBy'
    })
   };
   return komik;

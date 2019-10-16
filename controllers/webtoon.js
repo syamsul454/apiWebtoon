@@ -5,46 +5,46 @@ const episode = connection.episode
 const page = connection.page
 
 exports.index = (req, res) => {
-     komik.findAll().then(komiks=>res.send(komiks))
+     komik.findAll({
+         include: [{
+            model: user,
+            as: "CreateBy",
+        }] } 
+        ).then(komiks=>res.send(komiks))
 }
 
 exports.show = (req, res) => {
-    console.log(req.params.id)
-    komik.findOne({id: req.params.id}).then(komiks=> res.send(komiks))
+   komik.findAll(
+    {
+         include: [{
+            model: user,
+            as: "CreateBy",
+        }],
+         where : {id : req.params.id}
+    }).then(komiks=>res.send(komiks))
 }
 
 exports.episode = (req, res) => {
-    console.log(req.params.id)
-    komik.findOne({id: req.params.id}).then(komiks=> {
-    if(komik){ 
-            episode.findAll({where : {titleId : req.params.id}}).then(episodes =>res.send(episodes))
-    }else {
-            res.send('data tidak ')
-    }
-
-    })
+     episode.findAll( {
+        include: [{
+            model: komik,
+            as: "komik",
+        }],
+        where : {titleId : req.params.id}}).then(episodes=>res.send(episodes))
 }
 
 exports.detailepisode = (req, res) => {
-    komik.findOne({id: req.params.id}).then(komiks=> {
-    if(komik){ 
-            episode.findAll({where : {titleId : req.params.id}}).then(episodes => {
-                if (episode) {
-                    page.findAll({where : {episodeId : req.params.id}}).then(pages =>
-                      res.send(pages))
-                  }
-            })
-    }else {
-            res.send('data tidak ')
-    }
+    const  {id, ep} = req.params
+ page.findAll({
+         include: [{
+            model: episode,
+            as: "List",
+        }],
+         where : {episodeId :ep},
+       
+    }).then(pages=> res.send(pages)) 
 
-    })
 }
-
-
-
-
-
 
 exports.store = (req, res) => {
     const { title, is_done } = req.body    
