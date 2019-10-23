@@ -1,9 +1,10 @@
 const express = require('express')
 //init bodyParser
 const bodyParser = require('body-parser')
+require('dotenv').config();
 require('express-group-routes')
 const app = express()
-const port = 7000
+const port = process.env.PORT || 7000;
 
 app.use(bodyParser.json())
 
@@ -11,40 +12,51 @@ const AuthController = require('./controllers/auth')
 const WebtoonController = require('./controllers/webtoon')
 const UserController = require('./controllers/users')
 const EpisodeController = require('./controllers/episode')
+const PagesController = require('./controllers/page')
 
-const { authenticated } = require('./middleware')
+const { authenticated,  } = require('./middleware')
 
-app.group("/webtoon/api/v1", (router) => {
-    //todos API
-    router.post('/registrasi', UserController.store)
-    router.post('/login',AuthController.login)
-
+    app.group("/webtoon/api/v1", (router) => {
+    router.post('/registrasi',AuthController.signUp)
+    router.post('/login',AuthController.signIn)
     // -----------Routing webtoon -----------------
-    router.get('/webtoons',authenticated, WebtoonController.index) 
-    router.get('/webtoon/:id', WebtoonController.show) 
-    router.get('/webtoon/:id/episode', EpisodeController.index)   
-    router.get('/webtoon/:id/episode/:ep', EpisodeController.show)  
-    router.post('/webtoon', WebtoonController.store)    
-    router.patch('/webtoon/:id', WebtoonController.update)    
-    router.delete('/webtoon/:id', WebtoonController.delete)
-    // -------------------------------------------------------
-    // --------------------- Routing User----------------------
-    router.get('/users',authenticated, UserController.index)    
-    router.get('/user/:id',authenticated, UserController.show)  
-    router.get('/user/:id/komik',authenticated, WebtoonController.komik)
-    router.get('/user/:id_user/komik/:id_komik/episode/:id_episode',authenticated, EpisodeController.index)
-    router.get('/user/:id_user/komik/:id_komik/episode',authenticated, EpisodeController.index)
-    router.post('/user/:id_user/komik/:id_komik/episode',authenticated, EpisodeController.store)
-    router.get('/user/:id_user/komik/:id_komik/episode/:id_episode/images',authenticated, EpisodeController.images)
-    router.post('/user/:id_user/komik/:id_komik/episode/:id_episode/image',authenticated, EpisodeController.addimages)
-    router.delete('/user/:id_user/komik/:id_komik/episode/:id_episode/image/:id_image',authenticated, EpisodeController.deleteimages)
-    router.put('/user/:id_user/komik/:id_komik/episode/:id_episode',authenticated, EpisodeController.update)
-    router.delete('/user/:id_user/komik/:id_komik/episode/:id_episode',authenticated, EpisodeController.delete)
-    router.put('/user/:id/komik/:id_komik',authenticated, WebtoonController.update)
-    router.delete('/user/:id/komik/:id_komik',authenticated, WebtoonController.delete)
-    router.post('/user/:id/komik', WebtoonController.addKomik)
-    router.patch('/user/:id', UserController.update)    
-    router.delete('/user/:id', UserController.delete)
+    router.get('/webtoons',WebtoonController.listComics) 
+    router.get('/webtoon/:id',WebtoonController.listComic) 
+    router.get('/webtoon/:id/episode',WebtoonController.listEpisodes)   
+    router.get('/webtoon/:id/episode/:episodeId',WebtoonController.listPages)  
+
+
+
+     router.get('/users',authenticated,UserController.index)    
+     router.get('/user/:id',authenticated,UserController.show)  
+     router.get('/user/:id/comics',authenticated,UserController.listComic)
+     router.get('/user/:id/comic/:idComic',authenticated, UserController.detailComic)
+     router.get('/user/:idUser/favorites',authenticated, UserController.favorite)
+     router.post('/user/:id/comic',authenticated,UserController.addComic)
+     router.put('/user/:id/comic/:idComic',authenticated, UserController.update)
+     router.delete('/user/:id/comic/:idComic',authenticated, UserController.delete)
+     router.put('/user/:id',authenticated, UserController.userUpdate) 
+     router.delete('/user/:id',authenticated, UserController.userDelete)
+
+    
+     // ------------------------------ Episode ------------------
+     router.get('/user/:idUser/comic/:idComic/episode',authenticated, EpisodeController.listEpisode)
+     router.get('/user/:idUser/comic/:idComic/episode/:idEpisode',authenticated, EpisodeController.detailEpisode)
+     router.post('/user/:idUser/comic/:idComic/episode',authenticated, EpisodeController.addEpisode)
+     router.put('/user/:idUser/comic/:idComic/episode/:idEpisode',authenticated, EpisodeController.update)      
+     router.delete('/user/:idUser/comic/:idComic/episode/:idEpisode',authenticated, EpisodeController.delete)
+      
+    
+     // ----------------------------- pages ------------------------------------------------
+     router.get('/user/:idUser/comic/:idComic/episode/:idEpisode/pages',authenticated, PagesController.listPages)
+     router.post('/user/:idUser/comic/:idComic/episode/:idEpisode/page',authenticated, PagesController.addPage)
+     router.delete('/user/:idUser/comic/:idComic/episode/:idEpisode/page/:idPage',authenticated,PagesController.deletePage)
+           
+            
+            
+       
+           
+           
 
     
 })

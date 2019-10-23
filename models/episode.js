@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     foreignKey :'titleId'
    })
     episode.hasMany(models.page, {
-    as : 'Page',
+    as : 'pages',
     foreignKey :'episodeId'
    })
   };

@@ -9,14 +9,17 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   komik.associate = function(models) {
    komik.belongsTo(models.user, {
-    as : 'komik',
+    as : 'cretedBy',
     foreignKey :'id'
    })
     komik.hasMany(models.episode, {
     as : 'Episode',
     foreignKey :'titleId'
    })
-
+    komik.hasMany(models.favorite, {
+      as : 'favo',
+      foreignKey :'idComic'
+    })
   };
   return komik;
   // return episode;

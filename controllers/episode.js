@@ -4,109 +4,133 @@ const user = connection.user
 const episode = connection.episode
 const page = connection.page
 
-// tampilan semua episode
-exports.index = (req, res) => {
-    const id = req.params.id
-    const id_komik = req.params.id_komik
-    console.log(id_komik)
-    if (id) {
-         episode.findAll( {
-        include: [{
-            model: page,
-            as: "Page",
-        }],
-    where : {titleId : id}}).then(episodes=>res.send(episodes))
-     } 
-
-    if (id_komik) {
-        episode.findAll( {
-        include: [{
-            model: page,
-            as: "Page",
-        }],
-    where : {titleId : id_komik}}).then(episodes=>res.send(episodes))
-     }
-    
-}
 
 
-// detaill Episode berdasarkan komik
-exports.show = (req, res) => {
-    const  {id, ep} = req.params
- page.findAll({
-         include: [{
-            model: episode,
-            as: "List",
-        }],
-         where : {episodeId :ep},
-       
-    }).then(pages=> res.send(pages)) 
+exports.listEpisode = (req, res) => {
+    episode.findAll({
+            where : {titleId :req.params.idComic} }
+        ).then(episodes=> {
+        if (episodes != '') {
+        res.send({
+            status : 200, 
+            message : 'success',
+            episodes
+        })
+         
+        } else {
+        res.send({
+            message : 'Episode not found',
+            Status : 404
+            })
+        }
+    })
+    .catch((error) => res.status(404).json(
+        ResponseFormat.error(
+        error,
+        "somthing went wrong when reterieve the data",
+        404,
+        "error"
+        )
+    ))
 
 }
 
-// detail episode berdsarakn user id
-exports.show = (req, res) => {
-    const  {id, ep} = req.params
- page.findAll({
-         include: [{
-            model: episode,
-            as: "List",
-        }],
-         where : {episodeId :ep},
-       
-    }).then(pages=> res.send(pages)) 
+exports.detailEpisode = (req, res) => {
+    episode.findAll({
+            where : {titleId :req.params.idComic, id : req.params.idEpisode}}
+        ).then(episodes=> {
+        if (episodes != '') {
+        res.send({
+            status : 200, 
+            message : 'success',
+            episodes
+        })
+         
+        } else {
+        res.send({
+            message : 'Episode not found',
+            Status : 404
+            })
+        }
+    })
+    .catch((error) => res.status(404).json(
+        ResponseFormat.error(
+        error,
+        "somthing went wrong when reterieve the data",
+        404,
+        "error"
+        )
+    ))
 
 }
 
-exports.store = (req, res) => {
+
+exports.addEpisode = (req, res) => {
    episode.create({
-                titleId : req.params.id_komik,
+                titleId : req.params.idComic,
                 episode : req.body.episode,
                 image : req.body.image
    }). then(result => {
-        res.send(result)
+        if (result) {
+        res.send({
+            status : 200,
+            Message : 'Succes',
+            result
+            })
+    } else {
+        res.send({ 
+            status : 304,
+            Message : 'failed to input data'
+        })
+    }
    })
-}
-exports.images = (req, res) => {
-    console.log(req.params.id_episode)
-   page.findAll({
-    where : {episodeId : req.params.id_episode}
-   }).then(pages=> res.send(pages))
+    .catch((error) => res.status(404).json(
+        ResponseFormat.error(
+        error,
+        "somthing went wrong when reterieve the data",
+        404,
+        "error"
+        )
+    ))
 }
 
 exports.update = (req, res) => {
     episode.update(
             req.body,
              { 
-            where: {id : req.params.id_episode}
+            where: {id : req.params.idEpisode}
    }).then(episodes =>{
-            res.send({status : 'Sukses'})
+            res.send({
+                status : 200,
+                message : 'Sukses',
+            })
    })
+    .catch((error) => res.status(404).json(
+        ResponseFormat.error(
+        error,
+        "somthing went wrong when reterieve the data",
+        404,
+        "error"
+        )
+    ))
 }
 
 exports.delete = (req, res) => {
     episode.destroy({
-        where: {id : req.params.id_episode}
+        where: {id : req.params.idEpisode}
   }).then(episodes=> {
-    res.send({message : 'sukses'})
-  })
-}
-
-exports.addimages = (req, res) => {
-    console.log(req.body)
-    page.create({
-        episodeId : req.params.id_episode,
-        page : req.body.page,
-        image :req.body.image
-    }). then(result => {
-        res.send(result)
+    res.send({
+        status : 200,
+        message : 'sukses'
     })
+  })
+  .catch((error) => res.status(404).json(
+        ResponseFormat.error(
+        error,
+        "somthing went wrong when reterieve the data",
+        404,
+        "error"
+        )
+    ))
 }
 
-exports.deleteimages = (req, res) => {
-    page.destroy({
-        where: {id : req.params.id_image}
-  }).then(pages=> {
-    res.send({message : 'sukses'})
-  })
-}
