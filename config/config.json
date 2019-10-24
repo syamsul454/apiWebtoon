@@ -19,6 +19,6 @@
     "database": "dal68q6jniscvi",
     "host": "ec2-54-243-238-226.compute-1.amazonaws.com",
     "dialect": "postgres",
-    "use_env_variable": "postgres://cigpbrmxxftuwz:bec422b08b7b4941337d9a79ce84967c59bcf22033201d0ea375fc5a14771459@ec2-54-243-238-226.compute-1.amazonaws.com:5432/dal68q6jniscvi"
+   
   }
 }
