@@ -124,7 +124,6 @@ exports.detailComic = (req, res) => {
 
 
 exports.addComic = (req, res) => {
-    console.log(req.params.id)
     comic.create({
         title : req.body.title,
         genre : req.body.genre,
@@ -228,3 +227,19 @@ exports.favorite = (req, res) => {
     ))
 
 }
+
+exports.addFavorite = (req, res) => {
+        favorite.create({
+            idUser : req.body.idUser,
+            idComic : req.body.idComic
+        }). then(result => {
+            if (result) {
+                res.send({
+                    message : 'sukses',
+                    result
+                })}
+        })
+
+}
+
+

@@ -1,10 +1,9 @@
 const express = require('express')
-//init bodyParser
 const bodyParser = require('body-parser')
 require('dotenv').config();
 require('express-group-routes')
 const app = express()
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000
 
 app.use(bodyParser.json())
 
@@ -32,6 +31,7 @@ const { authenticated,  } = require('./middleware')
      router.get('/user/:id/comics',authenticated,UserController.listComic)
      router.get('/user/:id/comic/:idComic',authenticated, UserController.detailComic)
      router.get('/user/:idUser/favorites',authenticated, UserController.favorite)
+     router.post('/user/:idUser/favorite',authenticated, UserController.addFavorite)
      router.post('/user/:id/comic',authenticated,UserController.addComic)
      router.put('/user/:id/comic/:idComic',authenticated, UserController.update)
      router.delete('/user/:id/comic/:idComic',authenticated, UserController.delete)
